@@ -99,13 +99,6 @@ setValue(String fieldName, Object value) | Sets the value of fieldName.
 setWorkflow(Boolean b) | Enables or disables the running of business rules, script engines, and audit.
 update(String reason) | Save the GlideRecord changes to the database. Reason is saved to the audit record.
 updateMultiple() | Applies setValue() to every record in the table that match the current query.
-Updates each GlideRecord in a stated query with a specified set of changes.
-
-When changing field values, use setValue() instead of directly setting the field (field = something). When using updateMultiple(), directly setting the field (gr.state = 4) results in all records in the table being updated instead of just the records returned by the query.
-
-**Do not use this method with the chooseWindow() or setLimit() methods when working with large tables.
-
-This method sets new values and does not clear existing values.
 **Is valid?** | &nbsp;
 isActionAborted() | Checks to see if the current database action is to be aborted.
 isValid() | Returns true if current table exists.
@@ -292,6 +285,14 @@ gr.addQuery('active', true);
 gr.setValue('state',  4);
 gr.updateMultiple(); // update the state of all active incidents to 4 - "Awaiting User Info"
 ```
+
+Updates each GlideRecord in a stated query with a specified set of changes.
+
+When changing field values, use setValue() instead of directly setting the field (field = something). When using updateMultiple(), directly setting the field (gr.state = 4) results in all records in the table being updated instead of just the records returned by the query.
+
+**Do not use this method with the chooseWindow() or setLimit() methods when working with large tables.
+
+This method sets new values and does not clear existing values.
 
 #### isValid 
 ```javascript
