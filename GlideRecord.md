@@ -290,7 +290,7 @@ Updates each GlideRecord in a stated query with a specified set of changes.
 
 When changing field values, use setValue() instead of directly setting the field (field = something). When using updateMultiple(), directly setting the field (gr.state = 4) results in all records in the table being updated instead of just the records returned by the query.
 
-**Do not use this method with the chooseWindow() or setLimit() methods when working with large tables.
+**Do not use this method with the chooseWindow() or setLimit() methods when working with large tables.**
 
 This method sets new values and does not clear existing values.
 
