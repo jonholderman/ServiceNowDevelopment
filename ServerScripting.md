@@ -24,4 +24,18 @@ Will write to the database and the log file.
 gs.log("Hello World");
 ```
 
+## Get Difference of Two Date Times ##
+
+```javascript
+getTimeDiff();  
+
+function getTimeDiff(){  
+  var startDate = current.u_start_date.getGlideObject();  
+  var endDate = current.u_end_date.getGlideObject();  
+
+  current.u_duration = gs.dateDiff(startDate.getDisplayValueInternal(),endDate.getDisplayValueInternal(),false);  
+
+}
+```
+
 [1]: https://docs.servicenow.com/bundle/orlando-application-development/page/script/general-scripting/reference/r_ScriptingAlertInfoAndErrorMsgs.html	"Scripting alert, info, and error messages"
