@@ -311,6 +311,21 @@ gr.setLimit(10);
 gr.query(); // this retrieves latest 10 incident records created
 ```
 
+#### setWorkflow
+‘setForceUpdate’ is used to update records without having to change a value on that record to get the update to execute. ‘setForceUpdate’ is particularly useful in situations where you need to force the recalculation of a calculated field for all records in a table or when you need to run business rules against all records in a table but don’t want to have to change a value on the records.
+This method is often used with ‘setWorkflow’ and ‘autoSysFields’ as shown below.
+```javascript
+//Force an update to all User records without changing field values
+var gr = new GlideRecord('sys_user');
+gr.query();
+while (gr.next()) {
+   gr.setWorkflow(false); //Do not run business rules
+   gr.autoSysFields(false); //Do not update system fields
+   gr.setForceUpdate(true); //Force the update
+   gr.update();
+}
+```
+
 
 ## GlideAggregate 
 Use GlideAggregate to easily run database aggregation (COUNT, SUM, MIN, MAX, AVG) queries. GlideAggregate extends GlideRecord!
