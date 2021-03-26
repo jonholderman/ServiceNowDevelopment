@@ -1,0 +1,1 @@
+g_form.setVariablesReadOnly(true);

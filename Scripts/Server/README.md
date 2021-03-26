@@ -180,3 +180,5 @@ Project Link: [https://github.com/jonholderman/ServiceNowDevelopment](https://gi
 [license-url]: https://github.com/jonholderman/repo/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/jonholderman
+
+https://docs.servicenow.com/bundle/paris-application-development/page/script/server-scripting/concept/c_ServerScripting.html
