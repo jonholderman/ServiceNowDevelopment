@@ -1,4 +1,4 @@
-// Assign Assignment Group to 'T2 AGI Technical Support' since this is an AGI Task
+// Assign Assignment Group to 'ServiceNow Group Name'
 task.assignment_group.name = 'ServiceNow Group Name';
 
 // If the variable 'New Folder' is selected for the 'folderType' Variable  
