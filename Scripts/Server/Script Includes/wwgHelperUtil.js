@@ -86,6 +86,85 @@ scCatItemUtil.prototype = Object.extendsObject(AbstractAjaxProcessor, {
     },
 
     /**
+     * This function allows you to update the work_notes field outside of a GlideRecord
+     * where setWorkflow(false) is set
+     *
+     * @param {object} glideRec - The GlideRecord Object of the record you want to update
+     * @param {string} fieldName - The field name of the activity you want to update (work_notes)
+     * @param {string} workNotes - The notes you want to add to the record
+     * @param {string} userName - The username to show who updated
+     *
+     * @example
+     *     
+     *      var grStory = new GlideRecord("rm_story");
+     *      grRmStoryUpdate.get("sysID");
+     *      grRmStoryUpdate.query();
+     * 
+     *      insertJournalEntry(grStory, 'work_notes', workNotes, "userIdOfUser");
+     *     
+     */
+    insertJournalEntry: function(glideRec, fieldName, workNotes, userName) {
+
+        // Check is provided GlideRecord valid
+        if(!glideRec.isValidRecord()) {
+            return;
+        }
+
+        // Check is the field valid for that table
+        if(!glideRec.isValidField(fieldName)) {
+            return;
+        }
+
+        // Check if field type is of type journal input
+        var glideElement = glideRec.getElement(fieldName);
+        var descriptor = glideElement.getED();
+        var internalType = descriptor.getInternalType();
+        if(internalType != 'journal_input') {
+            return;
+        }
+        
+        var grSysUser = new GlideRecord('sys_user');
+        if (grSysUser.get('user_name', userName)) {
+            var userSysID = grSysUser.getUniqueValue();
+            var userDisplayName = grSysUser.getDisplayValue();
+        }
+
+        // Init all variables to be used later on
+        var recSysId = glideRec.getUniqueValue();
+        var recTable = glideRec.getTableName();
+        var recField = fieldName;
+        var recFieldLabel = glideRec[fieldName].getLabel();
+        var currentDateTime = new GlideDateTime();
+        
+        // Insert the workNotes into the Journal table
+        var grJournal = new GlideRecord('sys_journal_field');
+        grJournal.initialize();
+        grJournal.name = recTable;
+        grJournal.element_id = recSysId;
+        grJournal.element = recField;
+        grJournal.value = workNotes;
+        var journalSysId = grJournal.insert();
+        
+        // Get the history set for the current record
+        var grHistSet = new GlideRecord('sys_history_set');
+        grHistSet.get('id', recSysId);
+        
+        // Insert History line record
+        var grHistLine = new GlideRecord(grHistSet.line_table);
+        grHistLine.initialize();
+        grHistLine.field = recField;
+        grHistLine.label = recFieldLabel;
+        grHistLine.setValue('new', workNotes);
+        grHistLine.user_name = userDisplayName;
+        grHistLine.user_id = userName;
+        grHistLine.user = userSysID;
+        grHistLine.update_time = currentDateTime;
+        grHistLine.set = grHistSet.getUniqueValue();
+        grHistLine.insert();
+
+    },
+
+    /**
      * A private function that allows you to dynamically dot walk to any field from a GlideRecord Object
      *
      * @param {array} arrOfFields - A sorted array of fields to dot-walk to
